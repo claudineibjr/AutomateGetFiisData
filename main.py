@@ -1,9 +1,10 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 
-def getDriver():
+def getDriver() -> WebDriver:
   options = webdriver.ChromeOptions()
   options.add_argument("--headless")
 
@@ -11,7 +12,7 @@ def getDriver():
   driver = webdriver.Chrome(service=chromeService, options=options)
   return driver
 
-def printTicketTitle(ticket):
+def printTicketTitle(ticket: str):
   title = 'Ticket: ' + ticket
   timesToRepeatHiphenOnTitle = len(title) + 4 + 3 * 3 + 1
   print('')
@@ -20,7 +21,7 @@ def printTicketTitle(ticket):
   print('-' * timesToRepeatHiphenOnTitle)
 
 
-def getTicketInfo(driver, ticket):
+def getTicketInfo(driver: WebDriver, ticket: str):
   printTicketTitle(ticket)
   
   # Funds explorer
