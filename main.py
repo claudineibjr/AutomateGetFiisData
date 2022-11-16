@@ -10,7 +10,7 @@ class HistoryData(NamedTuple):
     income: str
 
 class FIIData(NamedTuple):
-  ticket: str
+  ticker: str
   price: str
   assetValue: str
   incomeValue: str
@@ -26,10 +26,10 @@ def getDriver() -> WebDriver:
   driver = webdriver.Chrome(service=chromeService, options=options)
   return driver
 
-def printTicketTitle(ticket: str):
+def printTickerTitle(ticker: str):
   repetitionNumber = 3
 
-  title = 'Ticket: ' + ticket
+  title = 'Ticker: ' + ticker
   timesToRepeatHiphenOnTitle = len(title) + repetitionNumber + 1 + repetitionNumber * repetitionNumber + 1
   print('')
   print('-' * timesToRepeatHiphenOnTitle)
@@ -101,11 +101,11 @@ def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
   except:
     return []
 
-def getTicketInfo(driver: WebDriver, ticket: str) -> FIIData:
-  printTicketTitle(ticket)
+def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
+  printTickerTitle(ticker)
 
   # Funds explorer
-  driver.get('https://www.fundsexplorer.com.br/funds/' + ticket)
+  driver.get('https://www.fundsexplorer.com.br/funds/' + ticker)
 
   # Preço / Cota
   stockPrice = getStockPrice(driver) or "---"
@@ -120,22 +120,22 @@ def getTicketInfo(driver: WebDriver, ticket: str) -> FIIData:
   liquidity = getLiquidity(driver) or "---"
 
   # FIIs
-  driver.get('https://fiis.com.br/' + ticket)
+  driver.get('https://fiis.com.br/' + ticker)
 
   # Tabela de últimos rendimentos
   historicalDataList = getHistoricalData(driver) or []
 
   # Clube FII
-  driver.get('https://www.clubefii.com.br/fiis/' + ticket)
+  driver.get('https://www.clubefii.com.br/fiis/' + ticker)
 
   # Vacância
   vacancy = getVacancy(driver) or "---"
 
-  data = FIIData(ticket, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+  data = FIIData(ticker, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
 
   return data
 
-def printTicketInfo(data: FIIData):
+def printTickerInfo(data: FIIData):
   print ('Preço: ' + data.price)
   print ('Valor patrimonial: ' + data.assetValue)
   print ('Dividendo: ' + data.incomeValue)
@@ -147,7 +147,7 @@ def printTicketInfo(data: FIIData):
 
 driver = getDriver()
 
-printTicketInfo(getTicketInfo(driver, 'XPLG11'))
-# getTicketInfo(driver, 'XPLG11')
+printTickerInfo(getTickerInfo(driver, 'XPLG11'))
+# getTickerInfo(driver, 'XPLG11')
 
 driver.quit()
