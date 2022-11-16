@@ -1,9 +1,12 @@
 from typing import NamedTuple
-from selenium import webdriver
+# from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 
 class HistoryData(NamedTuple):
     price: str
@@ -21,9 +24,11 @@ class FIIData(NamedTuple):
 def getDriver() -> WebDriver:
   options = Options()
   options.add_argument("--headless")
+  
+  # chromeService=Service('/Users/claudineibjr/Projects/AutomateGetFIIsData/Libraries/chromedriver')
+  # driver = webdriver.Chrome(service=chromeService, options=options)
+  driver = uc.Chrome(options=options)
 
-  chromeService=Service('/Users/claudineibjr/Projects/AutomateGetFIIsData/Libraries/chromedriver')
-  driver = webdriver.Chrome(service=chromeService, options=options)
   return driver
 
 def printTickerTitle(ticker: str):
@@ -128,6 +133,9 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
   # Clube FII
   driver.get('https://www.clubefii.com.br/fiis/' + ticker)
 
+  # Wait the call be loaded
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "lbl_cod_neg")))
+
   # Vacância
   vacancy = getVacancy(driver) or "---"
 
@@ -148,7 +156,7 @@ def printTickerInfo(data: FIIData):
 def main():
   driver = getDriver()
 
-  printTickerInfo(getTickerInfo(driver, 'XPLG11'))
+  # printTickerInfo(getTickerInfo(driver, 'XPLG11'))
   # getTickerInfo(driver, 'XPLG11')
 
   driver.quit()
