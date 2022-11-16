@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from collections import namedtuple
+from selenium.webdriver.chrome.options import Options
 
 class HistoryData(NamedTuple):
     price: str
@@ -15,10 +15,11 @@ class FIIData(NamedTuple):
   assetValue: str
   incomeValue: str
   liquidity: str
+  vacancy: str
   historicalDataList: list[HistoryData]
 
 def getDriver() -> WebDriver:
-  options = webdriver.ChromeOptions()
+  options = Options()
   options.add_argument("--headless")
 
   chromeService=Service('/Users/claudineibjr/Projects/AutomateGetFIIsData/Libraries/chromedriver')
@@ -42,7 +43,7 @@ def getStockPrice(driver: WebDriver) -> str:
     stockPrice = driver.find_element(By.CLASS_NAME, "price")
     return stockPrice.text
   except:
-    print ('Preço: Failure')
+    return
 
 def getAssetValue(driver: WebDriver) -> str:
   try:
@@ -51,7 +52,7 @@ def getAssetValue(driver: WebDriver) -> str:
     assetValue = assetValueParentElement.find_element(By.CLASS_NAME, "indicator-value")
     return assetValue.text
   except:
-    print ('Valor patrimonial: Failure')
+    return
 
 def getIncomeValue(driver: WebDriver) -> str:
   try:
@@ -60,7 +61,7 @@ def getIncomeValue(driver: WebDriver) -> str:
     lastIncome = lastIncomeParentElement.find_element(By.CLASS_NAME, "indicator-value")
     return lastIncome.text
   except:
-    print ('Último dividendo: Failure')  
+    return
 
 def getLiquidity(driver: WebDriver) -> str:
   try:
@@ -69,7 +70,15 @@ def getLiquidity(driver: WebDriver) -> str:
     dailyLiquidity = dailyLiquidityParentElement.find_element(By.CLASS_NAME, "indicator-value")
     return dailyLiquidity.text
   except:
-    print ('Liquidez diária: Failure')  
+    return
+
+def getVacancy(driver: WebDriver) -> str:
+  try:
+    vacancyElement = driver.find_element(By.ID, "vacancia").find_element(By.CLASS_NAME, "info").find_element(By.TAG_NAME, "div").find_elements(By.TAG_NAME, "strong")
+    vacancy = vacancyElement[len(vacancyElement) - 1]
+    return vacancy.text
+  except:
+    return
 
 def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
   data:list[HistoryData] = list()
@@ -90,33 +99,39 @@ def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
 
     return data
   except:
-    print ('Últimos valores/rendimentos: Failure')
+    return []
 
 def getTicketInfo(driver: WebDriver, ticket: str) -> FIIData:
   printTicketTitle(ticket)
-  
+
   # Funds explorer
   driver.get('https://www.fundsexplorer.com.br/funds/' + ticket)
 
   # Preço / Cota
-  stockPrice = getStockPrice(driver)
+  stockPrice = getStockPrice(driver) or "---"
 
   # Preço patrimonial
-  assetValue = getAssetValue(driver)
+  assetValue = getAssetValue(driver) or "---"
   
   # Dividendo
-  incomeValue = getIncomeValue(driver)
+  incomeValue = getIncomeValue(driver) or "---"
 
   # Liquidez
-  liquidity = getLiquidity(driver)
+  liquidity = getLiquidity(driver) or "---"
 
   # FIIs
   driver.get('https://fiis.com.br/' + ticket)
 
   # Tabela de últimos rendimentos
-  historicalDataList = getHistoricalData(driver)
+  historicalDataList = getHistoricalData(driver) or []
 
-  data = FIIData(ticket, stockPrice, assetValue, incomeValue, liquidity, historicalDataList)
+  # Clube FII
+  driver.get('https://www.clubefii.com.br/fiis/' + ticket)
+
+  # Vacância
+  vacancy = getVacancy(driver) or "---"
+
+  data = FIIData(ticket, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
 
   return data
 
@@ -125,12 +140,14 @@ def printTicketInfo(data: FIIData):
   print ('Valor patrimonial: ' + data.assetValue)
   print ('Dividendo: ' + data.incomeValue)
   print ('Liquidez diária: ' + data.liquidity)
+  print ("Vacância: " + data.vacancy)
   print ('Histórico: ')
   for historicalData in data.historicalDataList:
     print ('   ' + historicalData.price + ' / ' + historicalData.income)
 
 driver = getDriver()
 
-printTicketInfo(getTicketInfo(driver, 'BTRA11'))
+printTicketInfo(getTicketInfo(driver, 'XPLG11'))
+# getTicketInfo(driver, 'XPLG11')
 
 driver.quit()
