@@ -36,7 +36,6 @@ def printTickerTitle(ticker: str):
 
   title = 'Ticker: ' + ticker
   timesToRepeatHiphenOnTitle = len(title) + repetitionNumber + 1 + repetitionNumber * repetitionNumber + 1
-  print('')
   print('-' * timesToRepeatHiphenOnTitle)
   print('-' * repetitionNumber + ' ' + title + ' ' + '-' * repetitionNumber * repetitionNumber)
   print('-' * timesToRepeatHiphenOnTitle)
@@ -156,7 +155,7 @@ def printTickerInfo(data: FIIData):
 def main():
   driver = getDriver()
 
-  # printTickerInfo(getTickerInfo(driver, 'XPLG11'))
+  printTickerInfo(getTickerInfo(driver, 'XPLG11'))
   # getTickerInfo(driver, 'XPLG11')
 
   driver.quit()
