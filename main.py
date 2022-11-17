@@ -8,23 +8,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
 
-class HistoryData(NamedTuple):
-    price: str
-    income: str
-
-class FIIData(NamedTuple):
-  ticker: str
-  name: str
-  sector: str
-  segment: str
-  price: str
-  assetValue: str
-  incomeValue: str
-  liquidity: str
-  vacancy: str
-  grossLeasableArea: str
-  patrimony: str
-  historicalDataList: list[HistoryData]
+from model.FIIData import FIIData
+from model.HistoryData import HistoryData
 
 def getDriver() -> WebDriver:
   options = Options()
