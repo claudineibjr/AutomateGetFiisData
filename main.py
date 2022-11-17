@@ -15,6 +15,7 @@ class HistoryData(NamedTuple):
 class FIIData(NamedTuple):
   ticker: str
   name: str
+  sector: str
   price: str
   assetValue: str
   incomeValue: str
@@ -55,6 +56,16 @@ def getTickerName(driver: WebDriver) -> str:
   try:
     stockName = driver.find_element(By.ID, "fund-name")
     return stockName.text
+  except:
+    return
+
+def getSector(driver: WebDriver) -> str:
+  # Setor
+  try:
+    sectorElement = driver.find_element(By.XPATH, "//*[text()='Setor']")
+    sectorParentElement = sectorElement.find_element(By.XPATH, "..")
+    sector = sectorParentElement.find_element(By.TAG_NAME, "p")
+    return sector.text
   except:
     return
 
@@ -142,6 +153,12 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Tabela de últimos rendimentos
     historicalDataList = getHistoricalData(driver) or []
 
+    # Info Money
+    driver.get('https://www.infomoney.com.br/' + ticker)
+
+    # Setor
+    sector = getSector(driver) or '---'
+
     # Clube FII
     driver.get('https://www.clubefii.com.br/fiis/' + ticker)
 
@@ -151,7 +168,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Vacância
     vacancy = getVacancy(driver) or "---"
 
-    data = FIIData(ticker, name, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+    data = FIIData(ticker, name, sector, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
     
     return data
 
@@ -162,6 +179,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
 
 def printTickerInfo(data: FIIData):
   print ('Nome: ' + data.name)
+  print ('Setor: ' + data.sector)
   print ('Preço: ' + data.price)
   print ('Valor patrimonial: ' + data.assetValue)
   print ('Dividendo: ' + data.incomeValue)
