@@ -22,6 +22,7 @@ class FIIData(NamedTuple):
   incomeValue: str
   liquidity: str
   vacancy: str
+  grossLeasableArea: str
   historicalDataList: list[HistoryData]
 
 def getDriver() -> WebDriver:
@@ -115,6 +116,15 @@ def getVacancy(driver: WebDriver) -> str:
   except:
     return
 
+def getGrossLeasableArea(driver: WebDriver) -> str:
+  try:
+    grossLeasableAreaElement = driver.find_element(By.XPATH, "//*[text()='ABL (M²)']")
+    grossLeasableAreaParentElement = grossLeasableAreaElement.find_element(By.XPATH, "../..")
+    grossLeasableArea = grossLeasableAreaParentElement.find_element(By.TAG_NAME, "td")
+    return grossLeasableArea.text
+  except:
+    return
+
 def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
   data:list[HistoryData] = list()
   
@@ -182,7 +192,10 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Vacância
     vacancy = getVacancy(driver) or "---"
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+    # Área bruta locável
+    grossLeasableArea = getGrossLeasableArea(driver) or '---'
+
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, historicalDataList)
     
     return data
 
@@ -200,6 +213,7 @@ def printTickerInfo(data: FIIData):
   print ('Dividendo: ' + data.incomeValue)
   print ('Liquidez diária: ' + data.liquidity)
   print ("Vacância: " + data.vacancy)
+  print ("Área bruta locável (m²): " + data.grossLeasableArea)
   print ('Histórico: ')
   for historicalData in data.historicalDataList:
     print ('   ' + historicalData.price + ' / ' + historicalData.income)
