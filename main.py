@@ -14,6 +14,7 @@ class HistoryData(NamedTuple):
 
 class FIIData(NamedTuple):
   ticker: str
+  name: str
   price: str
   assetValue: str
   incomeValue: str
@@ -46,6 +47,14 @@ def getStockPrice(driver: WebDriver) -> str:
   try:
     stockPrice = driver.find_element(By.CLASS_NAME, "price")
     return stockPrice.text
+  except:
+    return
+
+def getTickerName(driver: WebDriver) -> str:
+  # Nome
+  try:
+    stockName = driver.find_element(By.ID, "fund-name")
+    return stockName.text
   except:
     return
 
@@ -127,6 +136,9 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # FIIs
     driver.get('https://fiis.com.br/' + ticker)
 
+    # Nome
+    name = getTickerName(driver) or "---"
+
     # Tabela de últimos rendimentos
     historicalDataList = getHistoricalData(driver) or []
 
@@ -139,7 +151,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Vacância
     vacancy = getVacancy(driver) or "---"
 
-    data = FIIData(ticker, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+    data = FIIData(ticker, name, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
     
     return data
 
@@ -149,6 +161,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
 
 
 def printTickerInfo(data: FIIData):
+  print ('Nome: ' + data.name)
   print ('Preço: ' + data.price)
   print ('Valor patrimonial: ' + data.assetValue)
   print ('Dividendo: ' + data.incomeValue)
