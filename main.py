@@ -106,41 +106,47 @@ def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
     return []
 
 def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
-  printTickerTitle(ticker)
+  try:
+    printTickerTitle(ticker)
 
-  # Funds explorer
-  driver.get('https://www.fundsexplorer.com.br/funds/' + ticker)
+    # Funds explorer
+    driver.get('https://www.fundsexplorer.com.br/funds/' + ticker)
 
-  # Preço / Cota
-  stockPrice = getStockPrice(driver) or "---"
+    # Preço / Cota
+    stockPrice = getStockPrice(driver) or "---"
 
-  # Preço patrimonial
-  assetValue = getAssetValue(driver) or "---"
-  
-  # Dividendo
-  incomeValue = getIncomeValue(driver) or "---"
+    # Preço patrimonial
+    assetValue = getAssetValue(driver) or "---"
+    
+    # Dividendo
+    incomeValue = getIncomeValue(driver) or "---"
 
-  # Liquidez
-  liquidity = getLiquidity(driver) or "---"
+    # Liquidez
+    liquidity = getLiquidity(driver) or "---"
 
-  # FIIs
-  driver.get('https://fiis.com.br/' + ticker)
+    # FIIs
+    driver.get('https://fiis.com.br/' + ticker)
 
-  # Tabela de últimos rendimentos
-  historicalDataList = getHistoricalData(driver) or []
+    # Tabela de últimos rendimentos
+    historicalDataList = getHistoricalData(driver) or []
 
-  # Clube FII
-  driver.get('https://www.clubefii.com.br/fiis/' + ticker)
+    # Clube FII
+    driver.get('https://www.clubefii.com.br/fiis/' + ticker)
 
-  # Wait the call be loaded
-  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "lbl_cod_neg")))
+    # Wait the call be loaded
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "lbl_cod_neg")))
 
-  # Vacância
-  vacancy = getVacancy(driver) or "---"
+    # Vacância
+    vacancy = getVacancy(driver) or "---"
 
-  data = FIIData(ticker, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+    data = FIIData(ticker, stockPrice, assetValue, incomeValue, liquidity, vacancy, historicalDataList)
+    
+    return data
 
-  return data
+  except Exception as error:
+    print ('Error to get ' + ticker + ' information')
+    print (error)
+
 
 def printTickerInfo(data: FIIData):
   print ('Preço: ' + data.price)
@@ -153,7 +159,12 @@ def printTickerInfo(data: FIIData):
     print ('   ' + historicalData.price + ' / ' + historicalData.income)
 
 def main():
-  driver = getDriver()
+  try:
+    driver = getDriver()
+  except Exception as error:
+    print ('Error to get driver')
+    print (error)
+    return
 
   printTickerInfo(getTickerInfo(driver, 'XPLG11'))
   # getTickerInfo(driver, 'XPLG11')
