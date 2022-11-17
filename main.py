@@ -1,7 +1,4 @@
-from typing import NamedTuple
-# from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
@@ -15,8 +12,6 @@ def getDriver() -> WebDriver:
   options = Options()
   options.add_argument("--headless")
   
-  # chromeService=Service('/Users/claudineibjr/Projects/AutomateGetFIIsData/Libraries/chromedriver')
-  # driver = webdriver.Chrome(service=chromeService, options=options)
   driver = uc.Chrome(options=options)
 
   return driver
@@ -68,6 +63,7 @@ def getSegment(driver: WebDriver) -> str:
     return
 
 def getAssetValue(driver: WebDriver) -> str:
+  # Valor patrimonial
   try:
     assetValueElement = driver.find_element(By.XPATH, "//*[text()='Valor Patrimonial']")
     assetValueParentElement = assetValueElement.find_element(By.XPATH, "..")
@@ -77,6 +73,7 @@ def getAssetValue(driver: WebDriver) -> str:
     return
 
 def getIncomeValue(driver: WebDriver) -> str:
+  # Dividendo
   try:
     lastIncomeElement = driver.find_element(By.XPATH, "//*[text()='Último Rendimento']")
     lastIncomeParentElement = lastIncomeElement.find_element(By.XPATH, "..")
@@ -86,6 +83,7 @@ def getIncomeValue(driver: WebDriver) -> str:
     return
 
 def getLiquidity(driver: WebDriver) -> str:
+  # Liquidez
   try:
     dailyLiquidityElement = driver.find_element(By.XPATH, "//*[text()='Liquidez Diária']")
     dailyLiquidityParentElement = dailyLiquidityElement.find_element(By.XPATH, "..")
@@ -95,6 +93,7 @@ def getLiquidity(driver: WebDriver) -> str:
     return
 
 def getVacancy(driver: WebDriver) -> str:
+  # Vacância
   try:
     vacancyElement = driver.find_element(By.ID, "vacancia").find_element(By.CLASS_NAME, "info").find_element(By.TAG_NAME, "div").find_elements(By.TAG_NAME, "strong")
     vacancy = vacancyElement[len(vacancyElement) - 1]
@@ -103,6 +102,7 @@ def getVacancy(driver: WebDriver) -> str:
     return
 
 def getGrossLeasableArea(driver: WebDriver) -> str:
+  # Área bruta locável
   try:
     grossLeasableAreaElement = driver.find_element(By.XPATH, "//*[text()='ABL (M²)']")
     grossLeasableAreaParentElement = grossLeasableAreaElement.find_element(By.XPATH, "../..")
@@ -112,6 +112,7 @@ def getGrossLeasableArea(driver: WebDriver) -> str:
     return
 
 def getPatrimony(driver: WebDriver) -> str:
+  # Patrimônio
   try:
     patrimonyElement = driver.find_element(By.XPATH, "//*[text()='Val. patrim. p/cota']").find_element(By.XPATH, "//*[text()='Patrimônio']")
     patrimonyParentElement = patrimonyElement.find_element(By.XPATH, "..")
@@ -121,6 +122,7 @@ def getPatrimony(driver: WebDriver) -> str:
     return
 
 def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
+  # Dados histórico
   data:list[HistoryData] = list()
   
   try:
