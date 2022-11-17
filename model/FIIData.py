@@ -1,5 +1,5 @@
 from typing import NamedTuple
-from HistoryData import HistoryData
+from .HistoryData import HistoryData
 
 class FIIData(NamedTuple):
   ticker: str
