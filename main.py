@@ -23,6 +23,7 @@ class FIIData(NamedTuple):
   liquidity: str
   vacancy: str
   grossLeasableArea: str
+  patrimony: str
   historicalDataList: list[HistoryData]
 
 def getDriver() -> WebDriver:
@@ -125,6 +126,15 @@ def getGrossLeasableArea(driver: WebDriver) -> str:
   except:
     return
 
+def getPatrimony(driver: WebDriver) -> str:
+  try:
+    patrimonyElement = driver.find_element(By.XPATH, "//*[text()='Val. patrim. p/cota']").find_element(By.XPATH, "//*[text()='Patrimônio']")
+    patrimonyParentElement = patrimonyElement.find_element(By.XPATH, "..")
+    patrimony = patrimonyParentElement.find_element(By.CLASS_NAME, "sub-value")
+    return patrimony.text
+  except:
+    return
+
 def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
   data:list[HistoryData] = list()
   
@@ -195,7 +205,13 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Área bruta locável
     grossLeasableArea = getGrossLeasableArea(driver) or '---'
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, historicalDataList)
+    # Status Invest
+    driver.get('https://statusinvest.com.br/fundos-imobiliarios/' + ticker)
+
+    # Patrimônio
+    patrimony = getPatrimony(driver) or '---'
+
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, historicalDataList)
     
     return data
 
@@ -214,6 +230,7 @@ def printTickerInfo(data: FIIData):
   print ('Liquidez diária: ' + data.liquidity)
   print ("Vacância: " + data.vacancy)
   print ("Área bruta locável (m²): " + data.grossLeasableArea)
+  print ("Patrimônio:  " + data.patrimony)
   print ('Histórico: ')
   for historicalData in data.historicalDataList:
     print ('   ' + historicalData.price + ' / ' + historicalData.income)
