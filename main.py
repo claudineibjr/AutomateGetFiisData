@@ -91,11 +91,14 @@ def printTickerInfo(data: FIIData):
   for historicalData in data.historicalDataList:
     print ('   ' + historicalData.price + ' / ' + historicalData.income)
 
+  print('')
+
 def main():
   driver = getDriver()
 
-  printTickerInfo(getTickerInfo(driver, 'XPLG11'))
-  # getTickerInfo(driver, 'XPLG11')
+  fiisToQuery = ['CPTS11']
+  for fiiToQuery in fiisToQuery:
+    printTickerInfo(getTickerInfo(driver, fiiToQuery))
 
   driver.quit()
 
