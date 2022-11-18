@@ -1,7 +1,5 @@
 import sys
 from selenium.webdriver.chrome.webdriver import WebDriver
-from util.getDriver import getDriver
-from util.printTickerTitle import printTickerTitle
 
 import crawlerInfo.fundsExplorer as fundsExplorer
 import crawlerInfo.fiis as fiis
@@ -10,6 +8,10 @@ import crawlerInfo.clubeFii as clubeFII
 import crawlerInfo.statusInvest as statusInvest
 
 from model.FIIData import FIIData
+
+from util.getDriver import getDriver
+from util.printTickerTitle import printTickerTitle
+from util.printTickerInfo import printTickerInfo
 
 def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
   try:
@@ -76,23 +78,6 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     print ('Error to get ' + ticker + ' information')
     print (error)
 
-
-def printTickerInfo(data: FIIData):
-  print ('Nome: ' + data.name)
-  print ('Setor: ' + data.sector)
-  print ('Segmento: ' + data.segment)
-  print ('Preço: ' + data.price)
-  print ('Valor patrimonial: ' + data.assetValue)
-  print ('Dividendo: ' + data.incomeValue)
-  print ('Liquidez diária: ' + data.liquidity)
-  print ("Vacância: " + data.vacancy)
-  print ("Área bruta locável (m²): " + data.grossLeasableArea)
-  print ("Patrimônio:  " + data.patrimony)
-  print ('Histórico: ')
-  for historicalData in data.historicalDataList:
-    print ('   ' + historicalData.price + ' / ' + historicalData.income)
-
-  print('')
 
 def main():
   driver = getDriver()
