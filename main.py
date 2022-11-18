@@ -1,3 +1,4 @@
+import sys
 from selenium.webdriver.chrome.webdriver import WebDriver
 from util.getDriver import getDriver
 from util.printTickerTitle import printTickerTitle
@@ -96,9 +97,13 @@ def printTickerInfo(data: FIIData):
 def main():
   driver = getDriver()
 
-  fiisToQuery = ['CPTS11']
-  for fiiToQuery in fiisToQuery:
-    printTickerInfo(getTickerInfo(driver, fiiToQuery))
+  if (len(sys.argv) > 1):
+    ticker = sys.argv[1]
+    printTickerInfo(getTickerInfo(driver, ticker))
+  else:
+    fiisToQuery = ['CPTS11']
+    for fiiToQuery in fiisToQuery:
+      printTickerInfo(getTickerInfo(driver, fiiToQuery))
 
   driver.quit()
 
