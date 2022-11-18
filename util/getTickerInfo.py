@@ -31,7 +31,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     liquidity = fundsExplorer.getLiquidity(driver) or "---"
 
     # Número de ativos
-    numberOfAssets = fundsExplorer.getNumberOfAssets(driver)
+    numberOfAssets = fundsExplorer.getNumberOfAssets(driver) or "---"
 
     # ----------
     # FIIs -----
