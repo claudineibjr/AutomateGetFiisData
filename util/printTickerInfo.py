@@ -13,7 +13,9 @@ def printTickerInfo(data: FIIData):
   print ("Patrimônio: " + data.patrimony)
   print ("Número de ativos " + data.numberOfAssets)
   print ('Histórico: ')
-  for historicalData in data.historicalDataList:
-    print ('   ' + historicalData.price + ' / ' + historicalData.income)
+  for count, historicalData in enumerate(data.historicalDataList):
+    countValue = count + 1
+    monthStr = 'mês' if countValue == 1 else 'meses'
+    print ('   ' + str(countValue) + ' ' + monthStr + ': ' + historicalData.price + ' / ' + historicalData.income)
 
   print('')
