@@ -13,9 +13,9 @@ class FIIData(NamedTuple):
   vacancy: str # Vacância
   grossLeasableArea: str # Área bruta locável (m²)
   patrimony: str # Patrimônio
+  numberOfAssets: str # Nº Ativos
   historicalDataList: list[HistoryData]
 
- # Nº Ativos
  # Nº Contratos
  # Score FE
  # Risco

@@ -41,3 +41,11 @@ def getLiquidity(driver: WebDriver) -> str:
     return dailyLiquidity.text
   except:
     return
+
+def getNumberOfAssets(driver: WebDriver) -> str:
+  # Número de ativos
+  try:
+    numberOfAssetsElement = driver.find_element(By.ID, "fund-actives-chart-info-wrapper").find_element(By.CLASS_NAME, "fund-actives")
+    return numberOfAssetsElement.text
+  except:
+    return

@@ -10,7 +10,8 @@ def printTickerInfo(data: FIIData):
   print ('Liquidez diária: ' + data.liquidity)
   print ("Vacância: " + data.vacancy)
   print ("Área bruta locável (m²): " + data.grossLeasableArea)
-  print ("Patrimônio:  " + data.patrimony)
+  print ("Patrimônio: " + data.patrimony)
+  print ("Número de ativos " + data.numberOfAssets)
   print ('Histórico: ')
   for historicalData in data.historicalDataList:
     print ('   ' + historicalData.price + ' / ' + historicalData.income)

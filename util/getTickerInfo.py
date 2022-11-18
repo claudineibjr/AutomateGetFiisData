@@ -30,6 +30,9 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Liquidez
     liquidity = fundsExplorer.getLiquidity(driver) or "---"
 
+    # Número de ativos
+    numberOfAssets = fundsExplorer.getNumberOfAssets(driver)
+
     # ----------
     # FIIs -----
     fiis.open(driver, ticker)
@@ -67,7 +70,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Patrimônio
     patrimony = statusInvest.getPatrimony(driver) or '---'
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, historicalDataList)
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
     
     return data
 
