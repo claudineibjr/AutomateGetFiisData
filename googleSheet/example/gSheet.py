@@ -10,9 +10,9 @@ from googleapiclient.errors import HttpError
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1SdBiZoP77XudGbsSjczgDbBLsHojr3eDhQlVAVbesKA'
-SAMPLE_RANGE_NAME_READ = 'A1!A1:E5'
-SAMPLE_RANGE_NAME_WRITE = 'A1!A7:B8'
+SAMPLE_SPREADSHEET_ID = 'TODO'
+SAMPLE_RANGE_NAME_READ = 'TODO'
+SAMPLE_RANGE_NAME_WRITE = 'TODO'
 
 
 def authorize() -> Credentials:
