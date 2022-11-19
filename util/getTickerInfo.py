@@ -10,6 +10,8 @@ from model.FIIData import FIIData
 
 from util.printTickerTitle import printTickerTitle
 
+notApplicableText = 'N/A'
+
 def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
   try:
     printTickerTitle(ticker)
@@ -19,58 +21,59 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     fundsExplorer.open(driver, ticker)
 
     # Preço / Cota
-    stockPrice = fundsExplorer.getStockPrice(driver) or "---"
+    stockPrice = fundsExplorer.getStockPrice(driver) or notApplicableText
 
     # Preço patrimonial
-    assetValue = fundsExplorer.getAssetValue(driver) or "---"
+    assetValue = fundsExplorer.getAssetValue(driver) or notApplicableText
     
     # Dividendo
-    incomeValue = fundsExplorer.getIncomeValue(driver) or "---"
+    incomeValue = fundsExplorer.getIncomeValue(driver) or notApplicableText
 
     # Liquidez
-    liquidity = fundsExplorer.getLiquidity(driver) or "---"
+    liquidity = fundsExplorer.getLiquidity(driver) or notApplicableText
 
     # Número de ativos
-    numberOfAssets = fundsExplorer.getNumberOfAssets(driver) or "---"
+    numberOfAssets = fundsExplorer.getNumberOfAssets(driver) or notApplicableText
 
     # ----------
     # FIIs -----
     fiis.open(driver, ticker)
 
     # Nome
-    name = fiis.getTickerName(driver) or "---"
+    name = fiis.getTickerName(driver) or notApplicableText
 
     # Tabela de últimos rendimentos
-    historicalDataList = fiis.getHistoricalData(driver) or []
+    # historicalDataList = fiis.getHistoricalData(driver) or []
 
     # ----------------
     # Info Money -----
     infoMoney.open(driver, ticker)
 
     # Setor
-    sector = infoMoney.getSector(driver) or '---'
+    sector = infoMoney.getSector(driver) or notApplicableText
 
     # Segmento
-    segment = infoMoney.getSegment(driver) or '---'
+    segment = infoMoney.getSegment(driver) or notApplicableText
 
     # ---------------
     # Clube FII -----
     clubeFII.open(driver, ticker)
 
     # Vacância
-    vacancy = clubeFII.getVacancy(driver) or "---"
+    vacancy = clubeFII.getVacancy(driver) or notApplicableText
 
     # Área bruta locável
-    grossLeasableArea = clubeFII.getGrossLeasableArea(driver) or '---'
+    grossLeasableArea = clubeFII.getGrossLeasableArea(driver) or notApplicableText
 
     # -------------------
     # Status Invest -----
     statusInvest.open(driver, ticker)
 
     # Patrimônio
-    patrimony = statusInvest.getPatrimony(driver) or '---'
+    patrimony = statusInvest.getPatrimony(driver) or notApplicableText
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
+    # data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets)
     
     return data
 
