@@ -1,4 +1,8 @@
-from util.formatAsNumber import formatAsNumber
+from util.formatAsNumber import formatNumber
+from util.getTickerInfo import notApplicableText
 
 def formatAsCurrency(value: float) -> str:
-  return "R$ " + formatAsNumber(value)
+  try:
+    return "R$ " + formatNumber(value)
+  except:
+    return notApplicableText

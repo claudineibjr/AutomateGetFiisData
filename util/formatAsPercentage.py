@@ -1,4 +1,8 @@
-from util.formatAsNumber import formatAsNumber
+from util.formatAsNumber import formatNumber
+from util.getTickerInfo import notApplicableText
 
 def formatAsPercentage(value: float) -> str:
-  return str((value * 100)) + " %"
+  try:
+    return formatNumber(value * 100) + " %"
+  except:
+    return notApplicableText
