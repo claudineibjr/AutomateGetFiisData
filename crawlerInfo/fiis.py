@@ -2,6 +2,8 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 from model.HistoryData import HistoryData
 
+from util.parseTextToFloat import parseTextToFloat
+
 def open(driver: WebDriver, ticker: str):
   driver.get('https://fiis.com.br/' + ticker)
 
@@ -25,8 +27,8 @@ def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
 
     for row in lastRevenuesRows:
       if (rowCount <= 5):
-        price = row.find_elements(By.TAG_NAME, 'td')[2].text
-        income = row.find_elements(By.TAG_NAME, 'td')[4].text
+        price = parseTextToFloat(row.find_elements(By.TAG_NAME, 'td')[2].text)
+        income = parseTextToFloat(row.find_elements(By.TAG_NAME, 'td')[4].text)
         data.append(HistoryData(price, income))
 
         rowCount = rowCount + 1
