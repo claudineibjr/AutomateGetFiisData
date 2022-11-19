@@ -6,15 +6,15 @@ class FIIData(NamedTuple):
   name: str # Descrição
   sector: str # Setor
   segment: str # Segmento
-  price: str # Valor Cota
-  assetValue: str # Valor Patrimonial
-  incomeValue: str # Dividendo
-  liquidity: str # Liquidez
-  vacancy: str # Vacância
-  grossLeasableArea: str # Área bruta locável (m²)
-  patrimony: str # Patrimônio
-  numberOfAssets: str # Nº Ativos
-  historicalDataList: list[HistoryData]
+  price: float # Valor Cota
+  assetValue: float # Valor Patrimonial
+  incomeValue: float # Dividendo
+  liquidity: float # Liquidez
+  vacancy: float # Vacância
+  grossLeasableArea: float # Área bruta locável (m²)
+  patrimony: float # Patrimônio
+  numberOfAssets: int # Nº Ativos
+  # historicalDataList: list[HistoryData]
 
  # Nº Contratos
  # Score FE
