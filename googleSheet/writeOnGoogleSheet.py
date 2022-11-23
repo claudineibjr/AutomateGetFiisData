@@ -1,5 +1,3 @@
-import os.path
-
 from typing import NamedTuple
 
 from google.auth.transport.requests import Request
@@ -47,7 +45,7 @@ class SpreadsheetInterface(NamedTuple):
   risco: str
   areaBrutaLocavel: str
 
-def writeOnGoogleSheet(creds: Credentials, data: list[FIIData]):
+def writeOnGoogleSheet(creds: Credentials, oldData: pd.DataFrame, data: list[FIIData]):
   # Call the Sheets API
   service = build('sheets', 'v4', credentials=creds)
   sheet = service.spreadsheets()
@@ -64,10 +62,10 @@ def writeOnGoogleSheet(creds: Credentials, data: list[FIIData]):
     spreadsheetData.append(fiiDataOnSpreadsheet)
 
 
-  dataFrame = pd.DataFrame(spreadsheetData)
-  print(dataFrame)
+  newDataFrame = pd.DataFrame(spreadsheetData)
+  dataFrame = pd.concat([newDataFrame, oldData]).drop_duplicates(subset="papel")
 
-  result = sheet.values().update( spreadsheetId=SPREADSHEET_ID,
-                                  range=SPREADSHEET_RANGE,
-                                  valueInputOption='RAW',
-                                  body={'values': dataFrame.values.tolist()}).execute()
+  sheet.values().update(  spreadsheetId=SPREADSHEET_ID,
+                          range=SPREADSHEET_RANGE,
+                          valueInputOption='USER_ENTERED',
+                          body={'values': dataFrame.values.tolist()}).execute()

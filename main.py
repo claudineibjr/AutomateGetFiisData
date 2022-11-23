@@ -9,8 +9,13 @@ from util.getTickerInfo import getTickerInfo
 
 from googleSheet.authorize import authorize
 from googleSheet.writeOnGoogleSheet import writeOnGoogleSheet
+from googleSheet.readFromGoogleSheet import readFromGoogleSheet
 
 from util.formatAsPercentage import formatAsPercentage
+
+import pandas as pd
+from typing import NamedTuple
+import numpy as np
 
 def main():
   driver = getDriver()
@@ -31,7 +36,9 @@ def main():
       data.append(tickerInfo)
       printTickerInfo(tickerInfo)
 
-  writeOnGoogleSheet(credentials, data)
+  oldData = readFromGoogleSheet(credentials)
+
+  writeOnGoogleSheet(credentials, oldData, data)
 
   print("Done")
 
