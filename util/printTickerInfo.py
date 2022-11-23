@@ -13,6 +13,7 @@ def printTickerInfo(data: FIIData):
   print ('Dividendo: ' + formatAsCurrency(data.incomeValue))
   print ('Liquidez diária: ' + formatAsNumber(data.liquidity))
   print ("Número de cotistas: " + formatAsNumber(data.numberOfShareHolders))
+  print ("Data de registro na CVM: " + data.creationDateAtCVM)
   print ("Vacância: " + formatAsPercentage(data.vacancy))
   print ("Área bruta locável (m²): " + formatAsNumber(data.grossLeasableArea))
   print ("Patrimônio: " + formatAsCurrency(data.patrimony))

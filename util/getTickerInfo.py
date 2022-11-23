@@ -57,6 +57,9 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Número de cotistas
     numberOfShareHolders = fiis.getNumberOfShareHolders(driver) or notApplicableText
 
+    # Data de registro na CVM
+    creationDateAtCVM = fiis.getCreationDateAtCVM(driver) or notApplicableText
+
     # ----------------
     # Info Money -----
     infoMoney.open(driver, ticker)
@@ -84,7 +87,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Patrimônio
     patrimony = statusInvest.getPatrimony(driver) or notApplicableText
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, numberOfShareHolders, historicalDataList)
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, numberOfShareHolders, creationDateAtCVM, historicalDataList)
     
     return data
 

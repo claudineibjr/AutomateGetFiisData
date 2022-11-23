@@ -48,6 +48,7 @@ class SpreadsheetInterface(NamedTuple):
   scoreFE: str
   risco: str
   areaBrutaLocavel: str
+  dataRegistro: str
   valorCota_1: str
   dividendo_1: str
   valorCota_2: str
@@ -88,7 +89,7 @@ def writeOnGoogleSheet(creds: Credentials, oldData: pd.DataFrame, data: list[FII
       papel=fiiData.ticker, descrição=fiiData.name, setor=fiiData.sector, segmento=fiiData.segment,
       valorCota=fiiData.price, dividendo=fiiData.incomeValue, valorPatrimonial=fiiData.assetValue, vacância=fiiData.vacancy,
       patrimônio=fiiData.patrimony, nAtivos=fiiData.numberOfAssets, nContratos="TO DO", liquidez=fiiData.liquidity, nCotistas=fiiData.numberOfShareHolders,
-      outrasInformacoes="TO DO", scoreFE=" TO DO", risco="TO DO", areaBrutaLocavel=fiiData.grossLeasableArea,
+      outrasInformacoes="TO DO", scoreFE=" TO DO", risco="TO DO", areaBrutaLocavel=fiiData.grossLeasableArea, dataRegistro=fiiData.creationDateAtCVM,
       valorCota_1=getHistoricalPrice(historicalData, 0), dividendo_1=getHistoricalIncome(historicalData, 0),
       valorCota_2=getHistoricalPrice(historicalData, 1), dividendo_2=getHistoricalIncome(historicalData, 1),
       valorCota_3=getHistoricalPrice(historicalData, 2), dividendo_3=getHistoricalIncome(historicalData, 2),

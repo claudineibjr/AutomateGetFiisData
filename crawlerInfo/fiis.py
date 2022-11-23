@@ -45,3 +45,12 @@ def getNumberOfShareHolders(driver: WebDriver) -> int:
     return int(parseTextToFloat(numberOfShareHolders.text))
   except:
     return
+
+def getCreationDateAtCVM(driver: WebDriver) -> str:
+  # Data de registro na CVM
+  try:
+    creationDateAtCVMParentElement = driver.find_element(By.XPATH, "//*[text()='Registro CVM']").find_element(By.XPATH, "..")
+    creationDateAtCVM = creationDateAtCVMParentElement.find_element(By.CLASS_NAME, "value")
+    return creationDateAtCVM.text
+  except:
+    return
