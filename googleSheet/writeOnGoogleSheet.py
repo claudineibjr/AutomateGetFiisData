@@ -7,7 +7,11 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import pandas as pd
 
+from util.getTickerInfo import notApplicableText
+
 from model.FIIData import FIIData
+from model.HistoryData import HistoryData
+
 from env import SPREADSHEET_ID, SPREADSHEET_RANGE
 
 # Papel
@@ -44,6 +48,30 @@ class SpreadsheetInterface(NamedTuple):
   scoreFE: str
   risco: str
   areaBrutaLocavel: str
+  valorCota_1: str
+  dividendo_1: str
+  valorCota_2: str
+  dividendo_2: str
+  valorCota_3: str
+  dividendo_3: str
+  valorCota_4: str
+  dividendo_4: str
+  valorCota_5: str
+  dividendo_5: str
+  valorCota_6: str
+  dividendo_6: str
+
+def getHistoricalPrice(data: list[HistoryData], index: int) -> str:
+  if (index < len(data)):
+    return data[index].price
+  else:
+    return notApplicableText
+
+def getHistoricalIncome(data: list[HistoryData], index: int) -> str:
+  if (index < len(data)):
+    return data[index].income
+  else:
+    return notApplicableText
 
 def writeOnGoogleSheet(creds: Credentials, oldData: pd.DataFrame, data: list[FIIData]):
   # Call the Sheets API
@@ -53,11 +81,18 @@ def writeOnGoogleSheet(creds: Credentials, oldData: pd.DataFrame, data: list[FII
   spreadsheetData:list[SpreadsheetInterface] = list()
   
   for fiiData in data:
+    historicalData = fiiData.historicalDataList
+
     fiiDataOnSpreadsheet = SpreadsheetInterface(
       papel=fiiData.ticker, descrição=fiiData.name, setor=fiiData.sector, segmento=fiiData.segment,
       valorCota=fiiData.price, dividendo=fiiData.incomeValue, valorPatrimonial=fiiData.assetValue, vacância=fiiData.vacancy,
-      patrimônio=fiiData.patrimony, nAtivos=fiiData.numberOfAssets, nContratos="TO DO", liquidez=fiiData.liquidity, outrasInformacoes="TO DO",
-      scoreFE=" TO DO", risco="TO DO", areaBrutaLocavel=fiiData.grossLeasableArea
+      patrimônio=fiiData.patrimony, nAtivos=fiiData.numberOfAssets, nContratos="TO DO", liquidez=fiiData.liquidity, outrasInformacoes="TO DO", scoreFE=" TO DO", risco="TO DO", areaBrutaLocavel=fiiData.grossLeasableArea,
+      valorCota_1=getHistoricalPrice(historicalData, 0), dividendo_1=getHistoricalIncome(historicalData, 0),
+      valorCota_2=getHistoricalPrice(historicalData, 1), dividendo_2=getHistoricalIncome(historicalData, 1),
+      valorCota_3=getHistoricalPrice(historicalData, 2), dividendo_3=getHistoricalIncome(historicalData, 2),
+      valorCota_4=getHistoricalPrice(historicalData, 3), dividendo_4=getHistoricalIncome(historicalData, 3),
+      valorCota_5=getHistoricalPrice(historicalData, 4), dividendo_5=getHistoricalIncome(historicalData, 4),
+      valorCota_6=getHistoricalPrice(historicalData, 5), dividendo_6=getHistoricalIncome(historicalData, 5),
     )
     spreadsheetData.append(fiiDataOnSpreadsheet)
 
