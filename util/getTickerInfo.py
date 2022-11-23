@@ -43,7 +43,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     name = fiis.getTickerName(driver) or notApplicableText
 
     # Tabela de últimos rendimentos
-    # historicalDataList = fiis.getHistoricalData(driver) or []
+    historicalDataList = fiis.getHistoricalData(driver) or []
 
     # ----------------
     # Info Money -----
@@ -72,8 +72,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Patrimônio
     patrimony = statusInvest.getPatrimony(driver) or notApplicableText
 
-    # data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets)
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
     
     return data
 

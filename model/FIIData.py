@@ -14,7 +14,7 @@ class FIIData(NamedTuple):
   grossLeasableArea: float # Área bruta locável (m²)
   patrimony: float # Patrimônio
   numberOfAssets: int # Nº Ativos
-  # historicalDataList: list[HistoryData]
+  historicalDataList: list[HistoryData]
 
  # Nº Contratos
  # Score FE
