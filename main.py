@@ -1,5 +1,4 @@
 import sys
-from selenium.webdriver.chrome.webdriver import WebDriver
 
 from model.FIIData import FIIData
 
@@ -10,12 +9,6 @@ from util.getTickerInfo import getTickerInfo
 from googleSheet.authorize import authorize
 from googleSheet.writeOnGoogleSheet import writeOnGoogleSheet
 from googleSheet.readFromGoogleSheet import readFromGoogleSheet
-
-from util.formatAsPercentage import formatAsPercentage
-
-import pandas as pd
-from typing import NamedTuple
-import numpy as np
 
 def main():
   driver = getDriver()

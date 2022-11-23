@@ -1,11 +1,10 @@
 from typing import NamedTuple
 
-from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 import pandas as pd
+
+from datetime import datetime
 
 from util.getTickerInfo import notApplicableText
 
@@ -60,6 +59,7 @@ class SpreadsheetInterface(NamedTuple):
   dividendo_5: str
   valorCota_6: str
   dividendo_6: str
+  atualizadoEm: str
 
 def getHistoricalPrice(data: list[HistoryData], index: int) -> str:
   if (index < len(data)):
@@ -93,6 +93,7 @@ def writeOnGoogleSheet(creds: Credentials, oldData: pd.DataFrame, data: list[FII
       valorCota_4=getHistoricalPrice(historicalData, 3), dividendo_4=getHistoricalIncome(historicalData, 3),
       valorCota_5=getHistoricalPrice(historicalData, 4), dividendo_5=getHistoricalIncome(historicalData, 4),
       valorCota_6=getHistoricalPrice(historicalData, 5), dividendo_6=getHistoricalIncome(historicalData, 5),
+      atualizadoEm=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )
     spreadsheetData.append(fiiDataOnSpreadsheet)
 
