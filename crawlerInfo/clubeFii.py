@@ -10,6 +10,10 @@ def open(driver: WebDriver, ticker: str):
 
   # Wait the call be loaded
   WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "lbl_cod_neg")))
+  
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[text()='dados básicos sobre o fundo']")))
+  fiiBasicDataElement=driver.find_element(By.XPATH, "//*[text()='dados básicos sobre o fundo']")
+  fiiBasicDataElement.location_once_scrolled_into_view
 
 def getVacancy(driver: WebDriver) -> float:
   # Vacância
