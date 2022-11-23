@@ -12,10 +12,11 @@ def printTickerInfo(data: FIIData):
   print ('Valor patrimonial: ' + formatAsCurrency(data.assetValue))
   print ('Dividendo: ' + formatAsCurrency(data.incomeValue))
   print ('Liquidez diária: ' + formatAsNumber(data.liquidity))
+  print ("Número de cotistas: " + formatAsNumber(data.numberOfShareHolders))
   print ("Vacância: " + formatAsPercentage(data.vacancy))
   print ("Área bruta locável (m²): " + formatAsNumber(data.grossLeasableArea))
   print ("Patrimônio: " + formatAsCurrency(data.patrimony))
-  print ("Número de ativos " + data.numberOfAssets)
+  print ("Número de ativos: " + data.numberOfAssets)
   print ('Histórico: ')
   for count, historicalData in enumerate(data.historicalDataList):
     countValue = count + 1

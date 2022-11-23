@@ -12,6 +12,15 @@ from util.printTickerTitle import printTickerTitle
 
 notApplicableText = 'N/A'
 
+def debugGetInfo(driver: WebDriver, ticker: str):
+    fiis.open(driver, ticker)
+
+    # Número de cotistas
+    numberOfShareHolders = fiis.getNumberOfShareHolders(driver) or "notApplicableText"
+
+    printTickerTitle(ticker)
+    print(numberOfShareHolders)
+
 def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
   try:
     printTickerTitle(ticker)
@@ -45,6 +54,9 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Tabela de últimos rendimentos
     historicalDataList = fiis.getHistoricalData(driver) or []
 
+    # Número de cotistas
+    numberOfShareHolders = fiis.getNumberOfShareHolders(driver) or notApplicableText
+
     # ----------------
     # Info Money -----
     infoMoney.open(driver, ticker)
@@ -72,7 +84,7 @@ def getTickerInfo(driver: WebDriver, ticker: str) -> FIIData:
     # Patrimônio
     patrimony = statusInvest.getPatrimony(driver) or notApplicableText
 
-    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, historicalDataList)
+    data = FIIData(ticker, name, sector, segment, stockPrice, assetValue, incomeValue, liquidity, vacancy, grossLeasableArea, patrimony, numberOfAssets, numberOfShareHolders, historicalDataList)
     
     return data
 

@@ -4,7 +4,7 @@ from model.FIIData import FIIData
 
 from util.getDriver import getDriver
 from util.printTickerInfo import printTickerInfo
-from util.getTickerInfo import getTickerInfo
+from util.getTickerInfo import getTickerInfo, debugGetInfo
 
 from googleSheet.authorize import authorize
 from googleSheet.writeOnGoogleSheet import writeOnGoogleSheet
@@ -12,8 +12,6 @@ from googleSheet.readFromGoogleSheet import readFromGoogleSheet
 
 def main():
   driver = getDriver()
-
-  credentials = authorize()
 
   data:list[FIIData] = list()
 
@@ -29,8 +27,8 @@ def main():
       data.append(tickerInfo)
       printTickerInfo(tickerInfo)
 
+  credentials = authorize()
   oldData = readFromGoogleSheet(credentials)
-
   writeOnGoogleSheet(credentials, oldData, data)
 
   print("Done")

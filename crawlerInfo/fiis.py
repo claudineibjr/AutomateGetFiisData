@@ -36,3 +36,12 @@ def getHistoricalData(driver: WebDriver) -> list[HistoryData]:
     return data
   except:
     return []
+
+def getNumberOfShareHolders(driver: WebDriver) -> int:
+  # Número de cotistas
+  try:
+    numberOfShareHoldersParentElement = driver.find_element(By.XPATH, "//*[text()='Número de Cotistas']").find_element(By.XPATH, "..")
+    numberOfShareHolders = numberOfShareHoldersParentElement.find_element(By.CLASS_NAME, "value")
+    return int(parseTextToFloat(numberOfShareHolders.text))
+  except:
+    return
