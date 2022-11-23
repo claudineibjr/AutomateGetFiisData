@@ -16,6 +16,7 @@ class FIIData(NamedTuple):
   numberOfAssets: int # Nº Ativos
   numberOfShareHolders: int # Nº de cotistas
   creationDateAtCVM: str # Data de registro na CVM
+  risk: int # Risco
   historicalDataList: list[HistoryData]
 
  # Nº Contratos

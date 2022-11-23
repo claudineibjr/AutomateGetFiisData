@@ -18,6 +18,7 @@ def printTickerInfo(data: FIIData):
   print ("Área bruta locável (m²): " + formatAsNumber(data.grossLeasableArea))
   print ("Patrimônio: " + formatAsCurrency(data.patrimony))
   print ("Número de ativos: " + data.numberOfAssets)
+  print ("Risco: " + formatAsNumber(data.risk))
   print ('Histórico: ')
   for count, historicalData in enumerate(data.historicalDataList):
     countValue = count + 1
